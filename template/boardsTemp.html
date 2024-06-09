@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+  </head>
+  <style>
+    header{
+        background-color: blueviolet;
+        height: 5%;
+        display: block;
+    }
+    .workPlace{
+        height: 100%;
+        display: flex;
+    }
+    .sidebar{
+        background-color: whitesmoke;
+        height: 100%;
+        width: 10%;
+    }
+    .trackPlace{
+        background-color: lightgrey;
+        width: 50%;
+        margin: 10px;
+        display: flex;
+    }
+    .track{
+        background-color: rgb(85, 82, 82);
+        height: 100%;
+        width: 30%;
+        margin: 10px;
+        border-radius: 3%;
+    }
+    .task{
+        background-color: whitesmoke;
+        margin: 10px;
+        border-radius: 3%;
+        font-family: Consolas;
+        padding: 10px;
+        color: grey;
+        border-radius: 10px;
+        border-color: grey;
+        border-style: groove;
+    }
+    .taskSignature{
+        margin-top: 10px;
+        padding-left: 10px;
+    }
+    .taskDropdownButton{
+        border-radius: 10px; 
+        border-color: grey; 
+        border-style: groove; 
+        padding-left: 10px; 
+        margin-top: 10px;
+        width: 100%;
+        background-color: whitesmoke;
+    }
+  </style>
+  <body style="background-color: gainsboro;">
+    <div style="height: 100vh;" id="root">
+        <header></header>
+        <div class="workPlace">
+            <div class="sidebar">
+
+            </div>
+            <div class="trackPlace">
+                <div class="track">
+                    <div class="task">
+                        <span class="taskSignature">1337</span>
+                        <span class="taskSignature">Name task 1</span>
+                        <select class="taskDropdownButton">
+                            <option>low</option>
+                            <option>normal</option>
+                            <option>major</option>
+                            <option>critical</option>
+                        </select>
+                        <select class="taskDropdownButton">
+                            <option>Исполнитель1</option>
+                            <option>Исполнитель2</option>
+                            <option>Исполнитель3</option>
+                            <option>Исполнитель4</option>
+                            <option>Исполнитель5</option>
+                            <option>Исполнитель6</option>
+                            <option>Исполнитель7</option>
+                        </select>
+                    </div>
+                    <div class="task">
+                        <span class="taskSignature">133777</span>
+                        <span class="taskSignature">Очень длинное наименование задачи</span>
+                        <select class="taskDropdownButton">
+                            <option>low</option>
+                            <option>normal</option>
+                            <option>major</option>
+                            <option>critical</option>
+                        </select>
+                        <select class="taskDropdownButton">
+                            <option>Исполнитель1</option>
+                            <option>Исполнитель2</option>
+                            <option>Исполнитель3</option>
+                            <option>Исполнитель4</option>
+                            <option>Исполнитель5</option>
+                            <option>Исполнитель6</option>
+                            <option>Исполнитель7</option>
+                        </select>
+                    </div>
+                    <div class="task">
+                        <span class="taskSignature">133777</span>
+                        <span class="taskSignature">Очень очень очень очень очень очень длинное наименование задачи</span>
+                        <select class="taskDropdownButton">
+                            <option>low</option>
+                            <option>normal</option>
+                            <option>major</option>
+                            <option>critical</option>
+                        </select>
+                        <select class="taskDropdownButton">
+                            <option>Исполнитель1</option>
+                            <option>Исполнитель2</option>
+                            <option>Исполнитель3</option>
+                            <option>Исполнитель4</option>
+                            <option>Исполнитель5</option>
+                            <option>Исполнитель6</option>
+                            <option>Исполнитель7</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="track">
+                    <div class="task">
+
+                    </div>
+                </div>
+                <div class="track">
+                    <div class="task">
+
+                    </div>
+                    <div class="task">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+  </body>
+</html>
