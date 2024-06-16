@@ -39,6 +39,11 @@ function Board() {
         width: '100%',
         backgroundColor: 'whitesmoke'
     }
+    let buttonStyle = {
+        borderRadius: '5px',
+        borderColor: 'grey',
+        float: "right"
+    }
 
     const [tracks, setTracks] = useState(getBoard('testIdTODO'));
     const [currentTrack, setCurrentTrack] = useState(null);
@@ -62,29 +67,13 @@ function Board() {
     }
     function dragDropHandler(e, track, task) {
         e.preventDefault();
-        console.log(currentTrack);
-        console.log(currentTask);
-        console.log(tracks);
-
+        
         const curIndex = currentTrack.tasks.indexOf(currentTask);
         currentTrack.tasks.splice(curIndex, 1);
 
         const dropIndex = track.tasks.indexOf(task);
         track.tasks.splice(dropIndex + 1, 0, currentTask);
-
-        let res = tracks.map(t => {
-            if (t.id == track.id) {
-                return track;
-            }
-            if (t.id == currentTrack.id) {
-                return currentTrack;
-            }
-            return t;
-        })
-
-        console.error(res);
-
-
+        
         setTracks(tracks.map(t => {
             if (t.id == track.id) {
                 return track;
@@ -105,13 +94,53 @@ function Board() {
         ]
     }
 
+    function showAddPanel(e){
+        e.target.parentNode.parentNode.getElementsByClassName('addTask')[0].style.display = 'block';
+    }
+    function hideAddPanel(e){
+        e.target.parentNode.style.display = 'none';
+    }
+
+    function addTaskQuary(task){
+        //todo запрос к бд
+        return {
+            taskId: Math.floor(Math.random() * (10000 - 1000) + 1000),
+            taskName: task.taskName,
+            taskPriority: task.taskPriority,
+            taskState: task.taskState,
+            execId: task.execId
+        };
+    }
+
+    function addTask(e){
+        let elem = e.target.parentNode;
+        let selects = elem.getElementsByTagName('select');
+        let state = elem.parentNode.id;
+        let stateArr = ['backlog', 'inprogress', 'done']; //TODO
+        let newTask = {
+            taskName: elem.getElementsByTagName('input')[0].value,
+            taskPriority: selects[0].value,
+            taskState: stateArr.indexOf(state),
+            execId: selects[1].value
+        };
+        console.error(newTask);
+        var result = addTaskQuary(newTask);
+        hideAddPanel(e);
+        setTracks(tracks.map((track, index) => {
+            if(index == result.taskState){
+                track.tasks.splice(0, 0, result);
+                return track;
+            }
+            return track;
+        }));
+    }
     var executors = getExecutorsList();
 
     return (
         <div style={trackPlaceStyle}>
             {
                 tracks.map(track =>
-                    <div style={trackStyle}>
+                    <div style={trackStyle} id={track.id}>
                         <div
                             onDragStart={(e) => dragStartHandler(e, track, null)}
                             onDragEnd={(e) => dragEndHandler(e)}
@@ -120,6 +149,22 @@ function Board() {
                             onDrop={(e) => dragDropHandler(e, track, null)}
                             style={taskStyle} className="taskItem">
                             {track.id}
+                            <button style={buttonStyle} onClick={(e) => showAddPanel(e)}>+</button>
+                        </div>
+                        <div style={taskStyle} className='addTask'
+                        >
+                            <input style={taskSignatureStyle}></input>
+                            <select style={taskDropdownButtonStyle}>
+                                <option value={0} >low</option>
+                                <option value={1}>normal</option>
+                                <option value={2}>major</option>
+                                <option value={4}>critical</option>
+                            </select>
+                            <select style={taskDropdownButtonStyle}>
+                                {executors.map((item) => <option value={item.id}>{item.name}</option>)}
+                            </select>
+                            <button style={buttonStyle} onClick={(e) => hideAddPanel(e)}>Отмена</button>
+                            <button style={buttonStyle} onClick={(e) => addTask(e)}>Добавить</button>
                         </div>
 
                         {
@@ -136,10 +181,10 @@ function Board() {
                                     <span style={taskSignatureStyle}>{task.taskId}</span>
                                     <span style={taskSignatureStyle}>{task.taskName}</span>
                                     <select style={taskDropdownButtonStyle}>
-                                        <option selected={task.taskPriority == 1}>low</option>
-                                        <option selected={task.taskPriority == 2}>normal</option>
-                                        <option selected={task.taskPriority == 3}>major</option>
-                                        <option selected={task.taskPriority == 4}>critical</option>
+                                        <option selected={task.taskPriority == 0}>low</option>
+                                        <option selected={task.taskPriority == 1}>normal</option>
+                                        <option selected={task.taskPriority == 2}>major</option>
+                                        <option selected={task.taskPriority == 3}>critical</option>
                                     </select>
                                     <select style={taskDropdownButtonStyle}>
                                         {executors.map((item) => <option selected={task.execId == item.id}>{item.name}</option>)}

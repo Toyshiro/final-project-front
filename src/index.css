@@ -24,3 +24,6 @@ code {
   height: 100%;
   display: flex;
 }
+.addTask{
+  display: none;
+}
