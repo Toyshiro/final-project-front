@@ -157,6 +157,8 @@ function Board() {
             }
             return track;
         }));
+        //todo поправить скрытие id
+        //todo добавить сохранение изменений приоритета/статуса/исполнителя
     }
 
     var executors = getExecutorsList();
