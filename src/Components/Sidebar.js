@@ -8,7 +8,12 @@ function Sidebar() {
 
     return (
         <div style={style}>
-
+            <div>
+                <div>Мой аккаунт</div>
+                <div>Мои задачи</div>
+                <div>Проекты</div>
+                <div>Пользователи(админ)</div>
+            </div>
         </div>
     );
 }

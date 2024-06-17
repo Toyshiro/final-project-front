@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import Header from './Components/Header';
 import Sidebar from './Components/Sidebar';
 import Board from './Components/Board';
+import ProjectList from './Components/ProjectList';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -13,7 +14,8 @@ root.render(
     <Header />
     <div className="workPlace">
       <Sidebar />
-      <Board />
+      {/* <Board /> */}
+      <ProjectList />
     </div>
   </div>
 
