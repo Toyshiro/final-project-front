@@ -27,3 +27,6 @@ code {
 .addTask{
   display: none;
 }
+input{
+  border-radius: 7px;
+}

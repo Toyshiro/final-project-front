@@ -67,13 +67,13 @@ function Board() {
     }
     function dragDropHandler(e, track, task) {
         e.preventDefault();
-        
+
         const curIndex = currentTrack.tasks.indexOf(currentTask);
         currentTrack.tasks.splice(curIndex, 1);
 
         const dropIndex = track.tasks.indexOf(task);
         track.tasks.splice(dropIndex + 1, 0, currentTask);
-        
+
         setTracks(tracks.map(t => {
             if (t.id == track.id) {
                 return track;
@@ -84,7 +84,6 @@ function Board() {
             return t;
         }));
     }
-
     function getExecutorsList() {
         return [
             { id: "1", name: 'Иванов И. И.' },
@@ -93,15 +92,13 @@ function Board() {
             { id: "4", name: 'Детров Д. В.' },
         ]
     }
-
-    function showAddPanel(e){
+    function showAddPanel(e) {
         e.target.parentNode.parentNode.getElementsByClassName('addTask')[0].style.display = 'block';
     }
-    function hideAddPanel(e){
+    function hideAddPanel(e) {
         e.target.parentNode.style.display = 'none';
     }
-
-    function addTaskQuary(task){
+    function addTaskQuary(task) {
         //todo запрос к бд
         return {
             taskId: Math.floor(Math.random() * (10000 - 1000) + 1000),
@@ -112,8 +109,7 @@ function Board() {
         };
     }
 
-    function addTask(e){
-        let elem = e.target.parentNode;
+    function getTaskObjFromElement(elem){
         let selects = elem.getElementsByTagName('select');
         let state = elem.parentNode.id;
         let stateArr = ['backlog', 'inprogress', 'done']; //TODO
@@ -123,17 +119,46 @@ function Board() {
             taskState: stateArr.indexOf(state),
             execId: selects[1].value
         };
+        return newTask;
+    }
+
+    function addTask(e) {
+        let elem = e.target.parentNode;
+        let newTask = getTaskObjFromElement(elem);
         console.error(newTask);
         var result = addTaskQuary(newTask);
         hideAddPanel(e);
         setTracks(tracks.map((track, index) => {
-            if(index == result.taskState){
+            if (index == result.taskState) {
                 track.tasks.splice(0, 0, result);
                 return track;
             }
             return track;
         }));
     }
+    function showEditPanel(e) {
+        e.target.parentNode.style.display = 'none';
+        e.target.parentNode.parentNode.getElementsByClassName('editPanel')[0].style.display = 'block';
+    }
+    function hideEditPanel(e) {
+        let editPanel = e.target.parentNode.parentNode;
+        editPanel.style.display = 'none';
+        editPanel.parentNode.getElementsByClassName('taskName')[0].style.display = 'inline';
+    }
+    function saveChangesTask(e) {
+        let elem = e.target.parentNode.parentNode.parentNode;
+        let newTask = getTaskObjFromElement(elem);
+        console.error(newTask); //todo сохранение в бд
+        hideEditPanel(e);
+        setTracks(tracks.map((track, index) => {
+            if (index == newTask.taskState) {
+                track.tasks.splice(0, 0, newTask);
+                return track;
+            }
+            return track;
+        }));
+    }
+
     var executors = getExecutorsList();
 
     return (
@@ -179,7 +204,17 @@ function Board() {
                                     className="taskItem"
                                 >
                                     <span style={taskSignatureStyle}>{task.taskId}</span>
-                                    <span style={taskSignatureStyle}>{task.taskName}</span>
+                                    <span style={taskSignatureStyle} className='taskName'>{task.taskName}
+                                        <button style={buttonStyle} onClick={(e) => showEditPanel(e)}>/</button>
+                                    </span>
+                                    <div style={{ display: 'none' }} className="editPanel">
+                                        <input /* value={task.taskName} */></input>
+                                        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                            <button style={buttonStyle} onClick={(e) => hideEditPanel(e)}>X</button>
+                                            <button style={buttonStyle} onClick={(e) => saveChangesTask(e)}>✓</button>
+                                        </div>
+                                    </div>
+
                                     <select style={taskDropdownButtonStyle}>
                                         <option selected={task.taskPriority == 0}>low</option>
                                         <option selected={task.taskPriority == 1}>normal</option>
