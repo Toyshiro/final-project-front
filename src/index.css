@@ -30,3 +30,7 @@ code {
 input{
   border-radius: 7px;
 }
+
+.focus:focus {
+  box-shadow: 0 4px 3px lightskyblue;
+}
